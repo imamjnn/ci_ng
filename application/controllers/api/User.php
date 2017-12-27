@@ -13,8 +13,20 @@ class User extends CI_Controller {
 		echo json_encode($params);
 	}
 
-	public function add(){
-		$params['title'] = 'Add Data';
-		$this->load->view('crud/add', $params);
+	public function createUser(){
+
+		$decod = json_decode(file_get_contents("php://input"));
+		$data = array(
+			'name' => $decod->name,
+			'address' => $decod->address
+		);
+		$add = $this->User->create($data);
+		if($data){
+			$params = array('status' => 'success');
+			echo json_encode($params);
+		}else{
+			$params = array('status' => 'failed');
+			echo json_encode($params);
+		}
 	}
 }
