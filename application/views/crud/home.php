@@ -11,14 +11,13 @@
 	      		<a class="navbar-brand" href="#">CRUD</a>
 	    	</div>
 	    	<ul class="nav navbar-nav">
-	      		<li><a href="#!/">Home</a></li>
+	      		<li><a href="#!crud">Home</a></li>
+	      		<li><a href="#!table">Data</a></li>
 	      		<li><a href="#!add">Add</a></li>
 	    	</ul>
   		</div>
 	</nav>
-  
 	<div class="container">
-		<h1><?= $title ?></h1>
   		<div ng-view></div>
 	</div>
 	<?php $this->load->view('crud/partial/foot') ?>

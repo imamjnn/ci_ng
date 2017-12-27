@@ -9,6 +9,11 @@ class Crud extends CI_Controller {
 		$this->load->view('crud/home', $params);
 	}
 
+	public function table(){
+		$params['title'] = 'Data Table';
+		$this->load->view('crud/table', $params);
+	}
+
 	public function add(){
 		$params['title'] = 'Add Data';
 		$this->load->view('crud/add', $params);
