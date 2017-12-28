@@ -2,7 +2,7 @@ var app = angular.module('crudApp', ['ngRoute']);
 
 app.config(function($routeProvider) {
     $routeProvider
-    .when("/table", {
+    .when("/", {
         templateUrl : "/crud/table",
         controller : "crudCtrl"
     })

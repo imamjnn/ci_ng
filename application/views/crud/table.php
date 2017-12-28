@@ -1,5 +1,5 @@
 <div ng-controller="crudCtrl">
-	<h2><?= $title ?></h2>
+	<div><a href="#!add" class="btn btn-default pull-right">Add</a><h2><?= $title ?></h2></div>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -11,10 +11,13 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in users">
-				<td>1</td>
+				<td>{{$index + 1}}</td>
 				<td>{{user.name}}</td>
 				<td>{{user.address}}</td>
-				<td width="100"><a href="">Edit</a> | <a href="">Delete</a></td>
+				<td width="150">
+					<a class="btn btn-default btn-xs" href="">Edit</a>
+					<a class="btn btn-danger btn-xs" ng-click="delUser(user.id)">Delete</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

@@ -15,13 +15,13 @@ class Crud extends CI_Controller {
 	}
 
 	public function table(){
-		$params['title'] = 'Data Table';
+		$params['title'] = 'Table User';
 		$users = $this->User->getAll();
 		$this->load->view('crud/table', $params);
 	}
 
 	public function add(){
-		$params['title'] = 'Add Data';
+		$params['title'] = 'Add User';
 		$this->load->view('crud/add', $params);
 	}
 }

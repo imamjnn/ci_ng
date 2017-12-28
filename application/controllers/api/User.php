@@ -14,18 +14,32 @@ class User extends CI_Controller {
 	}
 
 	public function createUser(){
-
 		$decod = json_decode(file_get_contents("php://input"));
 		$data = array(
 			'name' => $decod->name,
+			'username' => $decod->username,
+			'email' => $decod->email,
+			'avatar' => $decod->avatar,
 			'address' => $decod->address
 		);
+
 		$add = $this->User->create($data);
 		if($data){
 			$params = array('status' => 'success');
 			echo json_encode($params);
 		}else{
 			$params = array('status' => 'failed');
+			echo json_encode($params);
+		}
+	}
+
+	public function deleteUser($id){
+		if($id){
+			$this->User->remove($id);
+			$params = array('status'=>'success');
+			echo json_encode($params);
+		}else{
+			$params = array('status'=>'failed');
 			echo json_encode($params);
 		}
 	}
