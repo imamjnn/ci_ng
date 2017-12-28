@@ -8,9 +8,15 @@ class User extends CI_Controller {
         $this->load->model('User_model', 'User');
     }
 
-	public function getUser(){
-		$params['users'] = $this->User->getAll();
-		echo json_encode($params);
+	public function getUser($id=null){
+		if(!$id){
+			$params['users'] = $this->User->getAll();
+			echo json_encode($params);
+		}else{
+			$params['user'] = $this->User->get($id);
+			echo json_encode($params);
+		}
+		
 	}
 
 	public function createUser(){
@@ -24,6 +30,26 @@ class User extends CI_Controller {
 		);
 
 		$add = $this->User->create($data);
+		if($data){
+			$params = array('status' => 'success');
+			echo json_encode($params);
+		}else{
+			$params = array('status' => 'failed');
+			echo json_encode($params);
+		}
+	}
+
+	public function updateUser($id){
+		$decod = json_decode(file_get_contents("php://input"));
+		$data = array(
+			'name' => $decod->name,
+			'username' => $decod->username,
+			'email' => $decod->email,
+			'avatar' => $decod->avatar,
+			'address' => $decod->address
+		);
+
+		$update = $this->User->set($id, $data);
 		if($data){
 			$params = array('status' => 'success');
 			echo json_encode($params);

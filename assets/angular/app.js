@@ -7,6 +7,13 @@ app.config(function($routeProvider) {
         controller : "crudCtrl"
     })
     .when("/add", {
-        templateUrl : "/crud/add"
+        templateUrl : "/crud/add",
+        controller : "crudCtrl"
+    })
+    .when("/edit/:id", {
+        templateUrl : function(stateParams){
+        	return "/crud/add/"+stateParams.id;
+        },
+        controller : "crudCtrl"
     });
 });

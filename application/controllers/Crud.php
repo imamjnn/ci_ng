@@ -20,8 +20,16 @@ class Crud extends CI_Controller {
 		$this->load->view('crud/table', $params);
 	}
 
-	public function add(){
-		$params['title'] = 'Add User';
-		$this->load->view('crud/add', $params);
+	public function add($id=null){
+		$params['id'] = $id;
+		if(!$id){
+			$params['title'] = 'Add User';
+			$this->load->view('crud/add', $params);
+		}else{
+			$params['title'] = 'Edit User';
+			$params['user'] = $this->User->get($id);
+			$this->load->view('crud/add', $params);
+		}
+		
 	}
 }

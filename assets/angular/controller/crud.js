@@ -33,6 +33,33 @@ app.controller('crudCtrl', function($scope, $location, $http){
 		})
 	};
 
+	$scope.openEdit = function(id){
+		$http.get('/api/user/getuser/'+id)
+		.then(function(res){
+			console.log(res);
+			$scope.user = res.data.user;
+		})
+	}
+
+	$scope.updateUser = function(){
+		var add = {
+			method: 'PUT',
+			url: '/api/user/updateuser',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: {
+				'name': $scope.name_user,
+				'username': $scope.username_user,
+				'email': $scope.email_user,
+				'address': $scope.address_user
+			}
+		}
+		$http(add).then(function(res){
+			$location.url('/');
+		})
+	};
+
 	$scope.delUser = function(id){
 		var del = {
 			method: 'DELETE',

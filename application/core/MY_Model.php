@@ -85,6 +85,10 @@ class MY_Model extends CI_Model {
         return false;
     }
 
+    public function set($id, $data){
+        return $this->setByCond(['id'=>$id], $data);
+    }
+
     public function setByCond($cond, $data){
         $this->db->where($cond);
         return $this->db->update($this->table, $data);
