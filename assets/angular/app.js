@@ -4,16 +4,16 @@ app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
         templateUrl : "/crud/table",
-        controller : "crudCtrl"
+        //controller : "crudCtrl"
     })
     .when("/add", {
         templateUrl : "/crud/add",
-        controller : "crudCtrl"
+        controller : "editCtrl"
     })
     .when("/edit/:id", {
         templateUrl : function(stateParams){
         	return "/crud/add/"+stateParams.id;
         },
-        controller : "crudCtrl"
+        //controller : "editCtrl"
     });
 });

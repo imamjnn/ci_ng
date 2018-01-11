@@ -15,7 +15,7 @@
 				<td>{{user.name}}</td>
 				<td>{{user.address}}</td>
 				<td width="150">
-					<a class="btn btn-default btn-xs" ng-click="openEdit(user.id)">Edit</a>
+					<a class="btn btn-default btn-xs" href="#!/edit/{{user.id}}">Edit</a>
 					<a class="btn btn-danger btn-xs" ng-click="delUser(user.id)">Delete</a>
 				</td>
 			</tr>

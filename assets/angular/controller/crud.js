@@ -1,6 +1,58 @@
 var app = angular.module('crudApp');
 
-app.controller('crudCtrl', function($scope, $location, $http){
+app.controller('editCtrl', function($scope, $http, $routeParams, $location){
+	
+	if($routeParams.id){
+		var id = $routeParams.id;
+		$http.get('/api/user/getuser/'+id)
+		.then(function(res){
+			console.log(res);
+			$scope.user = res.data.user;
+		});
+	};
+
+	$scope.addUser = function(){
+		var add = {
+			method: 'POST',
+			url: '/api/user/createuser',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: {
+				'name': $scope.user.name,
+				'username': $scope.user.username,
+				'email': $scope.user.email,
+				'address': $scope.user.address
+			}
+		}
+		$http(add).then(function(res){
+			$location.url('/');
+		})
+	};
+
+	$scope.updateUser = function(id){
+		var add = {
+			method: 'PUT',
+			url: '/api/user/updateuser/'+id,
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: {
+				'name': $scope.user.name,
+				'username': $scope.user.username,
+				'email': $scope.user.email,
+				'address': $scope.user.address
+			}
+		}
+		$http(add).then(function(res){
+			$location.url('/');
+		})
+	};
+	
+});
+	
+
+app.controller('crudCtrl', function($scope, $location, $http, $routeParams){
 
 	$http.get('/api/user/getuser')
 	.then(function(res){
@@ -14,52 +66,6 @@ app.controller('crudCtrl', function($scope, $location, $http){
 		})
 	};
 
-	$scope.addUser = function(){
-		var add = {
-			method: 'POST',
-			url: '/api/user/createuser',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: {
-				'name': $scope.name_user,
-				'username': $scope.username_user,
-				'email': $scope.email_user,
-				'address': $scope.address_user
-			}
-		}
-		$http(add).then(function(res){
-			$location.url('/');
-		})
-	};
-
-	$scope.openEdit = function(id){
-		$http.get('/api/user/getuser/'+id)
-		.then(function(res){
-			console.log(res);
-			$scope.user = res.data.user;
-		})
-	}
-
-	$scope.updateUser = function(){
-		var add = {
-			method: 'PUT',
-			url: '/api/user/updateuser',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: {
-				'name': $scope.name_user,
-				'username': $scope.username_user,
-				'email': $scope.email_user,
-				'address': $scope.address_user
-			}
-		}
-		$http(add).then(function(res){
-			$location.url('/');
-		})
-	};
-
 	$scope.delUser = function(id){
 		var del = {
 			method: 'DELETE',
@@ -68,7 +74,6 @@ app.controller('crudCtrl', function($scope, $location, $http){
 		var c = confirm('Are you sure?');
 		if(c == true){
 			$http(del).then(function(res){
-				console.log(res);
 				$scope.refresh();
 			})
 		}
