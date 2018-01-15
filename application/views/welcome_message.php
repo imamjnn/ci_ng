@@ -1,84 +1,65 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>CodeIgniter + AngularJs</title>
-
-	<style type="text/css">
-
-	::selection { background-color: #E13300; color: white; }
-	::-moz-selection { background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body {
-		margin: 0 15px 0 15px;
-	}
-
-	p.footer {
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-
-	#container {
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
+	<title>Login</title>
+	<?php $this->load->view('crud/partial/head') ?>
 </head>
-<body>
-
-<div id="container">
-	<h1>CodeIgniter + AngularJs</h1>
-
-	<div id="body">
-		<center><a href="<?= base_url('crud') ?>">CRUD</a></center>
-		<code>cing = CodeIgniteraNGularjs</code>
-		<p>Dokumentasi <b>angularjs</b> ada <a href="https://docs.angularjs.org/tutorial" target="_blank">disini</a></p>
-		<p>Dokumentasi <b>codeigniter</b> ada <a href="https://www.codeigniter.com/user_guide" target="_blank">disini</a></p>
+<body ng-app="loginPage">
+	<div class="container" ng-controller="loginCtrl">
+	    <div class="row">
+	        <div class="col-sm-6 col-md-4 col-md-offset-4">
+	            <h1 class="text-center login-title">Sign in</h1>
+	            <div class="account-wall">
+	                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+	                    alt="">
+	                <form class="form-signin" ng-submit="onSubmit()">
+		                <input type="text" class="form-control" placeholder="Email" required autofocus>
+		                <input type="password" class="form-control" placeholder="Password" required>
+		                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	                </form>
+	            </div>
+	            <a href="#" class="text-center new-account">Create an account </a>
+	        </div>
+	    </div>
 	</div>
-
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
-</div>
+	<?php $this->load->view('crud/partial/foot') ?>
+	<script>
+		var app = angular.module('loginPage');
+		app.controller('loginCtrl', function($scope, $http, $location){
+			$scope.isLoading = false;
+			$scope.user = {
+				username: '',
+				password: ''
+			}
+			$scope.onSubmit = function(){
+    			$scope.isLoading = true;
+    			var login = {
+	    			method: 'POST',
+	    			url: 'http://localhost:4545/ci_auth/auth/check_login',
+	    			headers: {
+	    				'Content-Type': 'application/x-www-form-urlencoded'
+	    			},
+	    			data: {
+	    				'username': $scope.user.username,
+	    				'password': $scope.user.password
+	    			}
+	    		};
+	    		$http(login).then(function(res){
+	    			$scope.isLoading = false;
+	    			if(res.data.status === 'success'){
+	    				console.log('login berhasil, selanjutnya terserah anda');
+	    			}else{
+	    				$mdToast.show(
+      						$mdToast.simple()
+					        .textContent(res.data.message)
+					        .position('top')
+					        .hideDelay(3000)
+					    );
+	    			}
+	    		});
+    		}
+		})
+	</script>
 
 </body>
 </html>
